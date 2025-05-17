@@ -1,0 +1,27 @@
+<div>
+  <h1 style="font-size:2.5rem; font-weight:700; color:#222; margin-bottom:2rem;">Mis marcas</h1>
+  <ng-container *ngIf="marcas && marcas.length > 0; else noBrands">
+    <div class="brands-grid">
+      <div *ngFor="let marca of marcas" class="brand-card">
+        <div class="brand-logo">
+          <span>LOGO</span>
+        </div>
+        <div class="brand-name">
+          <strong>{{ marca.nombre }}</strong>
+        </div>
+      </div>
+      <button class="brand-card add-card" type="button" (click)="abrirCreateBrandView($event)">
+        <span class="add-icon">+</span>
+      </button>
+    </div>
+  </ng-container>
+  <ng-template #noBrands>
+    <div class="no-brands">
+      <p style="font-size:1.3rem; color:#333; margin-bottom:1.5rem;">Aún no tienes marcas registradas.</p>
+      <button class="add-card" (click)="abrirCreateBrandView($event)" style="width:180px; height:180px; font-size:3rem;">
+        +
+      </button>
+      <p style="margin-top:1rem; color:#555;">Haz clic para añadir tu primera marca</p>
+    </div>
+  </ng-template>
+</div>

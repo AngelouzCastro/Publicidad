@@ -1,0 +1,28 @@
+.login-background {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #fff;
+  }
+  .dot {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.25;
+    animation: float 6s infinite alternate;
+  }
+  .dot1 { width: 80px; height: 80px; background: #3B5BDB; top: 10%; left: 8%; animation-delay: 0s;}
+  .dot2 { width: 40px; height: 40px; background: #FFB400; top: 70%; left: 15%; animation-delay: 1s;}
+  .dot3 { width: 60px; height: 60px; background: #FF6B6B; top: 30%; left: 80%; animation-delay: 2s;}
+  .dot4 { width: 30px; height: 30px; background: #3B5BDB; top: 80%; left: 75%; animation-delay: 3s;}
+  .dot5 { width: 100px; height: 100px; background: #FFB400; top: 50%; left: 60%; animation-delay: 4s;}
+  @keyframes float {
+    0% { transform: translateY(0) scale(1);}
+    100% { transform: translateY(-30px) scale(1.1);}
+  }
+  .login-container, .login-form, .login-logo-title, .logo-text, .subtitle, .login-input, .login-btn, .google-btn, .register-text, .register-link {
+    font-family: 'Poppins', Arial, sans-serif !important;
+  }
+  .input-error {
+    border-color: #FF6B6B !important;
+  }

@@ -1,0 +1,9 @@
+<div style="display: flex; align-items: center; margin-bottom: 2rem;">
+    <div *ngFor="let step of [1,2,3,4,5]; let i = index" style="display: flex; align-items: center;">
+      <div [style.background]="i === 0 ? '#3B5BDB' : '#d6eaf8'"
+           style="width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold;">
+        {{ i + 1 }}
+      </div>
+      <div *ngIf="i < 4" style="width: 60px; height: 4px; background: #d6eaf8; margin: 0 8px;"></div>
+    </div>
+</div>
