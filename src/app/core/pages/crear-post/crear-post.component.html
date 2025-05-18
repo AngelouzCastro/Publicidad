@@ -1,0 +1,61 @@
+<div class="container py-4" style="background: #f5f6fa; min-height: 100vh;">
+  <h2 class="fw-bold mb-2" style="font-size:2rem;">Crear Post - Paso 3 de 5</h2>
+  <div class="d-flex justify-content-center mb-3">
+    <app-progress-bar [currentStep]="2"></app-progress-bar>
+  </div>
+  <div class="row">
+    <!-- Columna de textos -->
+    <div class="col-md-6">
+      <h5 class="fw-semibold mb-3">Textos</h5>
+      <div class="mb-3">
+        <div class="rounded-3 d-flex align-items-center justify-content-center" style="background:#4A64F6; height:90px;">
+          <span class="fw-bold text-white" style="font-size:2rem;">BACK TO<br>SCHOOL</span>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Texto complementario</label>
+        <div class="input-group">
+          <input type="text" class="form-control" value="#4A64F6" style="max-width:110px;">
+          <input type="text" class="form-control" value="AL5EX">
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Posición del texto</label>
+        <select class="form-select">
+          <option>Arriba</option>
+          <option>Centro</option>
+          <option>Abajo</option>
+        </select>
+      </div>
+      <button class="btn w-100" style="background:#4A64F6; color:#fff; font-weight:600;">+ Agregar texto</button>
+    </div>
+    <!-- Columna de imágenes de producto -->
+    <div class="col-md-6">
+      <h5 class="fw-semibold mb-3">Imagens de producto</h5>
+      <div class="border rounded-3 p-3 mb-3 bg-white">
+        <div class="mb-2 fw-semibold">Imagen 1</div>
+        <div class="mb-3">
+          <label class="form-label">Posición de imagen</label>
+          <div class="input-group">
+            <select class="form-select">
+              <option>Centro</option>
+              <option>Izquierda</option>
+              <option>Derecha</option>
+            </select>
+            <span class="input-group-text" style="background:#E3E8FF;">&nbsp;</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Color</label>
+          <div class="rounded-3 bg-light d-flex align-items-center justify-content-center mb-2" style="height:90px;">
+            <img src="assets/ejemplo-moodle.png" alt="Producto" class="img-fluid" style="max-height:80px;">
+          </div>
+          <div class="d-flex gap-2">
+            <input type="text" class="form-control" value="#F0FFC" style="max-width:110px;">
+            <input type="text" class="form-control" value="#F0FFC" style="max-width:110px;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

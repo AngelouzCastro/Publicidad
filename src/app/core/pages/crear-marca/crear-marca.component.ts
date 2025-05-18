@@ -4,6 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { ColorSketchModule } from 'ngx-color/sketch';
 import { ProgressBarComponent } from '../../shared/progress-bar/progress-bar.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { ElementRef, ViewChildren, QueryList } from '@angular/core';
+
+
 
 @Component({
   standalone: true,
@@ -14,6 +18,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
     ColorSketchModule,
     ProgressBarComponent,
     ReactiveFormsModule,
+    RouterModule
   ],
   templateUrl: './crear-marca.component.html',
   styleUrl: './crear-marca.component.css'
@@ -23,6 +28,23 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 export class CrearMarcaComponent {
   pasoActual: any;
   logoUrl: string | ArrayBuffer | null = null;
+
+
+@ViewChildren('sketchRef') sketchRefs!: QueryList<ElementRef>;
+
+abrirColorSketch(i: number, event: MouseEvent) {
+  event.stopPropagation();
+  this.colorActivo = i;
+}
+
+onDocumentClick(event: MouseEvent) {
+  if (this.colorActivo !== null && this.sketchRefs) {
+    const sketchEl = this.sketchRefs.find(ref => ref.nativeElement.getAttribute('data-index') == this.colorActivo?.toString())?.nativeElement;
+    if (sketchEl && !sketchEl.contains(event.target)) {
+      this.colorActivo = null;
+    }
+  }
+}
   
   // --- Valores implícitos ---
   valorImplicitoCtrl = new FormControl('');
@@ -31,12 +53,6 @@ export class CrearMarcaComponent {
   valoresImplicitosCtrl = new FormControl<string[]>([], { nonNullable: true });
   states = []
   selection: any[] = [];
-
-  
-
-  constructor() {
-    
-  }
 
   onLogoSelected(event: Event) {
     const input = event.target as HTMLInputElement;
