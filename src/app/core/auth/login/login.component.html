@@ -1,43 +1,59 @@
-<div class="login-background">
+<div class="login-background position-relative min-vh-100">
   <span class="dot dot1"></span>
   <span class="dot dot2"></span>
   <span class="dot dot3"></span>
   <span class="dot dot4"></span>
   <span class="dot dot5"></span>
-  <div class="login-container" style="display:flex; flex-direction:row; align-items:center; justify-content:center; min-height:100vh; background:transparent; font-family:'Poppins', Arial, sans-serif;">
-    <div class="login-form" style="max-width:350px; width:100%; padding:2rem 2.5rem; border-radius:18px; box-shadow:0 4px 24px 0 rgba(60,80,180,0.08); background:#fff;">
-      <div class="login-logo-title" style="display:flex; align-items:center; gap:10px; margin-bottom:1.5rem;">
-        <div class="logo-circle" style="width:32px; height:32px; border:4px solid #3B5BDB; border-radius:50%;"></div>
-        <span class="logo-text" style="font-size:1.5rem; font-weight:600; color:#222;">Inicio</span>
+  <div class="container d-flex flex-column flex-md-row align-items-center justify-content-center min-vh-100">
+    <div class="login-form bg-white rounded-4 shadow p-4 p-md-5 mx-auto" style="max-width: 500px; width: 100%;">
+      <div class="d-flex align-items-center gap-2 mb-4">
+        <div class="border border-4 border-primary rounded-circle" style="width:36px; height:36px;"></div>
+        <span class="fs-3 fw-semibold text-dark">Inicio</span>
       </div>
-      <h1 style="font-size:2.5rem; font-weight:700; color:#222; margin-bottom:0.5rem;">Iniciar sesión</h1>
-      <p class="subtitle" style="color:#555; margin-bottom:1.5rem;">Introduce tus credenciales</p>
+      <h1 class="fs-1 fw-bold text-dark mb-2">Iniciar sesión</h1>
+      <p class="text-secondary mb-4" style="font-size:1.15rem;">Introduce tus credenciales</p>
       <form (ngSubmit)="onSubmit()">
-        <input
-          type="email"
-          placeholder="Correo electrónico"
-          class="login-input"
-          [(ngModel)]="email"
-          name="email"
-          required
-          [ngClass]="{'input-error': emailInvalid}"
-          style="width:100%; padding:1rem; border:1.5px solid #C7D0F7; border-radius:8px; margin-bottom:1rem; font-size:1rem;"
-        />
-        <div *ngIf="emailInvalid" style="color:#FF6B6B; font-size:0.95rem; margin-bottom:0.5rem;">
-          Ingresa un correo electrónico válido.
+        <div class="mb-3">
+          <input
+            type="email"
+            placeholder="Correo electrónico"
+            class="form-control py-3 fs-5"
+            [(ngModel)]="email"
+            name="email"
+            required
+            [ngClass]="{'is-invalid': emailInvalid}"
+            style="height:54px;"
+          />
+          <div *ngIf="emailInvalid" class="invalid-feedback d-block">
+            Ingresa un correo electrónico válido.
+          </div>
         </div>
-        <input type="password" placeholder="Contraseña" class="login-input" style="width:100%; padding:1rem; border:1.5px solid #C7D0F7; border-radius:8px; margin-bottom:0.5rem; font-size:1rem;" />
-        <a href="#" class="forgot-link" style="color:#3B5BDB; font-size:1rem; text-decoration:none; margin-bottom:1.5rem; display:inline-block;">¿Olvidaste tu contraseña?</a>
-        <button type="submit" class="login-btn" style="width:100%; background:#3B5BDB; color:#fff; font-size:1.25rem; font-weight:600; border:none; border-radius:8px; padding:1rem; margin-bottom:1rem; cursor:pointer;">Iniciar sesión</button>
-        <button type="button" class="google-btn" style="width:100%; background:#fff; color:#222; border:1.5px solid #C7D0F7; border-radius:8px; padding:1rem; font-size:1rem; font-weight:500; display:flex; align-items:center; justify-content:center; gap:10px; cursor:pointer; margin-bottom:1rem;">
+        <div class="mb-3">
+          <input type="password" placeholder="Contraseña" class="form-control py-3 fs-5" style="height:54px;" />
+        </div>
+        <div class="mb-4">
+          <a href="#" class="text-primary text-decoration-none" style="font-size:1.05rem;">¿Olvidaste tu contraseña?</a>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 py-3 mb-3 fw-semibold fs-5" style="height:54px;">Iniciar sesión</button>
+        <button type="button" class="btn btn-outline-secondary w-100 py-3 d-flex align-items-center justify-content-center gap-2 mb-2 fs-5" style="height:54px;">
           <img src="../../../../assets/google-icon.svg" alt="Google" style="width:24px; height:24px;">
           Iniciar con Google
         </button>
       </form>
-      <p class="register-text" style="margin-top:1.5rem; color:#222;">¿No tienes cuenta? <a href="#" class="register-link" style="color:#3B5BDB; text-decoration:none;">Regístrate</a></p>
+      <p class="mt-4 text-center text-dark" style="font-size:1.08rem;">¿No tienes cuenta? <a href="#" class="text-primary text-decoration-none">Regístrate</a></p>
     </div>
-    <div class="login-illustration" style="display:flex; align-items:center; justify-content:center; margin-left:2rem;">
-      <img src="../../../../assets/logo.jpeg" alt="Ilustración laptop paleta" style="width:180px;"/>
+    <div class="login-illustration d-none d-md-flex flex-column align-items-center justify-content-center ms-md-5">
+      <div class="bg-transparent d-flex align-items-center justify-content-center mb-3" style="width: 200px; height: 200px;">
+        <img src="../../../../assets/logo.jpeg"
+             alt="Ilustración laptop paleta"
+             class="img-fluid"
+             style="max-width: 100%; max-height: 100%; object-fit: contain; background: transparent; border-radius: 0; box-shadow: none; image-rendering: auto;" />
+      </div>
+      <div class="text-center px-3">
+        <span style="font-size:1.25rem; font-weight:500; color:#222; line-height:1.4; background:rgba(255,255,255,0.85); border-radius:12px; padding:0.75rem 1.2rem; box-shadow:0 2px 12px 0 rgba(60,80,180,0.07); display:inline-block;">
+          La forma más sencilla de hacer <span style="color:#3B5BDB; font-weight:600;">publicidad</span> a tu marca
+        </span>
+      </div>
     </div>
   </div>
 </div>

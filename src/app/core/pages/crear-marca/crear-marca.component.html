@@ -1,108 +1,139 @@
 
 <div class="bg-light min-vh-100 py-4" (document:click)="onDocumentClick($event)">
-  <!-- Progress Bar de 5 pasos -->
-  <div class="d-flex justify-content-center mb-3">
-    <app-progress-bar [currentStep]="0"></app-progress-bar>
-  </div>
-  <!-- Formulario de crear marca -->
-  <div class="bg-white rounded-4 p-4 mx-auto" style="max-width: 600px;">
-    <h1 class="fw-bold mb-4" style="font-size:2.5rem; color:#222;">Generar Marca</h1>
-    <button (click)="verListaColores()" class="btn w-100 mb-4" style="background:#7c83f7; color:#fff; font-size:1.1rem; font-weight:600;">
-      Entrar con red social
-    </button>
-    <form>
-      <label class="form-label">Nombre</label>
-      <input type="text" (focus)="colorActivo = null" class="form-control mb-3" style="padding:0.8rem; border-radius:8px;">
+  <div class="container">
+    <div class="bg-white rounded-4 p-4 mx-auto shadow" style="max-width: 1100px;">
+      <h1 class="fw-bold mb-4" style="font-size:2.5rem; color:#222;">Generar Marca</h1>
+      <div class="row">
+        <!-- Columna izquierda: datos generales -->
+        <div class="col-md-6 border-end">
+          <form>
+            <label class="form-label">Nombre</label>
+            <input type="text" (focus)="colorActivo = null" class="form-control mb-3" style="padding:0.8rem; border-radius:8px;">
 
-      <div class="d-flex align-items-center mb-4">
-        <label for="logoInput" class="m-0" style="cursor:pointer;">
-          <div class="d-flex align-items-center justify-content-center bg-light"
-               style="width:70px; height:70px; border:2px solid #d6eaf8; border-radius:12px; transition:box-shadow 0.2s; position:relative;"
-               [style.boxShadow]="logoUrl ? '0 0 0 2px #3B5BDB' : '0 0 0 2px #d6eaf8'">
-            <ng-container *ngIf="!logoUrl">
-              <span class="d-flex align-items-center justify-content-center w-100 h-100" style="font-size:2.5rem; color:#23a6d5;">
-                +
-              </span>
-            </ng-container>
-            <ng-container *ngIf="logoUrl">
-              <img [src]="logoUrl" alt="Logo seleccionado" class="rounded-3" style="width:60px; height:60px; object-fit:cover;">
-            </ng-container>
+            <label class="form-label">Vlores Impicitos</label>            <!-- <mat-label>Favorite Fruits</mat-label> -->
+            <div class="form-control mb-3 bg-white">
+              <mat-chip-grid #chipGrid aria-label="Fruit selection">
+                @for (fruit of fruits(); track $index) {
+                  <mat-chip-row (removed)="remove(fruit)">
+                    {{fruit}}
+                    <button matChipRemove [attr.aria-label]="'remove ' + fruit">
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                  </mat-chip-row>
+                }
+              </mat-chip-grid>
+              <input
+                class="form-control"
+                name="currentFruit"
+                placeholder="New Fruit..."
+                #fruitInput
+                [(ngModel)]="currentFruit"
+                [matChipInputFor]="chipGrid"
+                [matAutocomplete]="auto"
+                (matChipInputTokenEnd)="add($event)"
+              />
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event); fruitInput.value = ''">
+                @for (fruit of filteredFruits(); track fruit) {
+                  <mat-option class="bg-white" [value]="fruit">{{fruit}}</mat-option>
+                }
+              </mat-autocomplete>
+            </div>
+            
+            
+            <label class="form-label">Tono de comunicación</label>
+            <input type="text" (focus)="colorActivo = null" class="form-control mb-3" style="padding:0.8rem; border-radius:8px;">
+            <label class="form-label">Tipografía</label>
+            <input type="text" (focus)="colorActivo = null" class="form-control mb-3" style="padding:0.8rem; border-radius:8px;">
+            <label class="form-label">Temas frecuentes</label>
+            <input type="text" (focus)="colorActivo = null" class="form-control mb-3" style="padding:0.8rem; border-radius:8px;">
+            <div class="d-flex justify-content-between mt-4">
+              <button type="button"
+                      class="btn btn-outline-primary px-4 py-2"
+                      style="font-weight:600; border-radius:8px;"
+                      routerLink="/mis-marcas">
+                Cancelar
+              </button>
+              <button type="button"
+                      class="btn btn-primary px-4 py-2"
+                      style="font-weight:600; border-radius:8px; background:#3B5BDB; border:none;">
+                Crear marca
+              </button>
+            </div>
+          </form>
+        </div>
+        <!-- Columna derecha: logo y colores -->
+        <div class="col-md-6 ps-md-5 mt-4 mt-md-0">
+          <button (click)="verListaColores()" class="btn w-100 mb-4" style="background:#7c83f7; color:#fff; font-size:1.1rem; font-weight:600;">
+            Entrar con red social
+          </button>
+          <div class="mb-4 d-flex align-items-center">
+            <label for="logoInput" class="m-0" style="cursor:pointer;">
+              <div class="d-flex align-items-center justify-content-center bg-light"
+                   style="width:90px; height:90px; border:2px solid #d6eaf8; border-radius:16px; transition:box-shadow 0.2s; position:relative;"
+                   [style.boxShadow]="logoUrl ? '0 0 0 2px #3B5BDB' : '0 0 0 2px #d6eaf8'">
+                <ng-container *ngIf="!logoUrl">
+                  <span class="d-flex align-items-center justify-content-center w-100 h-100" style="font-size:3rem; color:#23a6d5;">
+                    +
+                  </span>
+                </ng-container>
+                <ng-container *ngIf="logoUrl">
+                  <img [src]="logoUrl" alt="Logo seleccionado" class="rounded-3" style="width:80px; height:80px; object-fit:cover;">
+                </ng-container>
+              </div>
+              <input id="logoInput" type="file" accept="image/*" (change)="onLogoSelected($event)" hidden>
+            </label>
+            <div class="ms-4">
+              <span class="fs-5 fw-medium" style="color:#23243a;">Logo</span>
+              <div *ngIf="logoUrl">
+                <button type="button" (click)="cambiarLogo()" class="btn btn-link p-0 mt-2" style="color:#3B5BDB; font-size:0.95rem;">Cambiar imagen</button>
+              </div>
+            </div>
           </div>
-          <input id="logoInput" type="file" accept="image/*" (change)="onLogoSelected($event)" hidden>
-        </label>
-        <div class="ms-4">
-          <span class="fs-5 fw-medium" style="color:#23243a;">Logo</span>
-          <div *ngIf="logoUrl">
-            <button type="button" (click)="cambiarLogo()" class="btn btn-link p-0 mt-2" style="color:#3B5BDB; font-size:0.95rem;">Cambiar imagen</button>
+          <label class="form-label">Colores de la marca</label>
+          <div class="d-flex align-items-end flex-wrap gap-2 mb-3 mt-3">
+            <div *ngFor="let color of colores; let i = index" class="d-flex flex-column align-items-center position-relative">
+              <div class="position-relative">
+                <button type="button"
+                  (click)="abrirColorSketch(i, $event)"
+                  [ngStyle]="{'border': colorActivo === i ? '2px solid #3B5BDB' : '2px solid #e0e0e0'}"
+                  class="bg-white d-flex align-items-center justify-content-center"
+                  style="width: 44px; height: 44px; border-radius: 50%; transition: border 0.2s; padding: 0;">
+                  <span [ngStyle]="{'background': color}"
+                        style="width: 36px; height: 36px; border-radius: 50%; display: block;">
+                  </span>
+                </button>
+                <button *ngIf="colores.length > 1"
+                  (click)="removerColor(i)"
+                  class="btn btn-danger position-absolute d-flex align-items-center justify-content-center p-0"
+                  style="top: -10px; right: -8px; border-radius: 50%; width: 20px; height: 20px; font-size: 1rem;">
+                  ×
+                </button>
+              </div>
+              <span class="text-center text-secondary mt-1">{{ color }}</span>
+            </div>
+            <button type="button" *ngIf="colores.length < 4"
+              (click)="agregarColor()"
+              class="btn d-flex align-items-center justify-content-center ms-2"
+              style="width: 44px; height: 44px; border-radius: 50%; background: #3B5BDB; color: #fff; font-size: 2rem; position: relative; bottom: 25px;">
+              +
+            </button>
+          </div>
+          <!-- El color-sketch y el input solo aparecen debajo de la fila de colores, no dentro del ngFor -->
+          <div *ngIf="colorActivo !== null" class="mb-4" #sketchRef [attr.data-index]="colorActivo">
+            <color-sketch [(color)]="colores[colorActivo]" [presetColors]="[]" class="mb-2"
+              (onChangeComplete)="actualizarColor($event.color.hex, colorActivo)">
+            </color-sketch>
+            <input type="text"
+              [(ngModel)]="colores[colorActivo]"
+              maxlength="7"
+              [ngModelOptions]="{standalone: true}"
+              class="form-control"
+              style="width: 110px;"
+              placeholder="#000000"
+              (focus)="colorActivo = colorActivo">
           </div>
         </div>
       </div>
-
-      <label class="form-label">Colores de la marca</label>
-      <div class="d-flex align-items-end flex-wrap gap-2 mb-3 mt-3">
-        <div *ngFor="let color of colores; let i = index" class="d-flex flex-column align-items-center position-relative">
-          <div class="position-relative">
-            <button type="button"
-              (click)="abrirColorSketch(i, $event)"
-              [ngStyle]="{'border': colorActivo === i ? '2px solid #3B5BDB' : '2px solid #e0e0e0'}"
-              class="bg-white d-flex align-items-center justify-content-center"
-              style="width: 44px; height: 44px; border-radius: 50%; transition: border 0.2s; padding: 0;">
-              <span [ngStyle]="{'background': color}"
-                    style="width: 36px; height: 36px; border-radius: 50%; display: block;">
-              </span>
-            </button>
-            <button *ngIf="colores.length > 2"
-              (click)="removerColor(i)"
-              class="btn btn-danger position-absolute d-flex align-items-center justify-content-center p-0"
-              style="top: -10px; right: -8px; border-radius: 50%; width: 20px; height: 20px; font-size: 1rem;">
-              ×
-            </button>
-          </div>
-          <span class="text-center text-secondary mt-1">{{ color }}</span>
-        </div>
-        <button type="button"
-          (click)="agregarColor()"
-          class="btn d-flex align-items-center justify-content-center ms-2"
-          style="width: 44px; height: 44px; border-radius: 50%; background: #3B5BDB; color: #fff; font-size: 2rem; position: relative; bottom: 25px;">
-          +
-        </button>
-      </div>
-      <!-- El color-sketch y el input solo aparecen debajo de la fila de colores, no dentro del ngFor -->
-      <div *ngIf="colorActivo !== null" class="mb-4" #sketchRef [attr.data-index]="colorActivo">
-        <color-sketch [(color)]="colores[colorActivo]" [presetColors]="[]" class="mb-2"
-          (onChangeComplete)="actualizarColor($event.color.hex, colorActivo)">
-        </color-sketch>
-        <input type="text"
-          [(ngModel)]="colores[colorActivo]"
-          maxlength="7"
-          [ngModelOptions]="{standalone: true}"
-          class="form-control"
-          style="width: 110px;"
-          placeholder="#000000"
-          (focus)="colorActivo = colorActivo">
-      </div>
-
-      <label class="form-label">Tono de comunicación</label>
-      <input type="text" (focus)="colorActivo = null" class="form-control mb-3" style="padding:0.8rem; border-radius:8px;">
-      <label class="form-label">Tipografía</label>
-      <input type="text" (focus)="colorActivo = null" class="form-control mb-3" style="padding:0.8rem; border-radius:8px;">
-      <label class="form-label">Temas frecuentes</label>
-      <input type="text" (focus)="colorActivo = null" class="form-control mb-3" style="padding:0.8rem; border-radius:8px;">
-
-      <div class="d-flex justify-content-between mt-4">
-        <button type="button"
-                class="btn btn-outline-primary px-4 py-2"
-                style="font-weight:600; border-radius:8px;"
-                routerLink="/mis-marcas">
-          Cancelar
-        </button>
-        <button type="button"
-                class="btn btn-primary px-4 py-2"
-                style="font-weight:600; border-radius:8px; background:#3B5BDB; border:none;"
-                routerLink="/referencia-marca">
-          Siguiente
-        </button>
-      </div>
-    </form>
+    </div>
   </div>
 </div>

@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { ProgressBarComponent } from '../../shared/progress-bar/progress-bar.component';
 import { ColorSketchModule } from 'ngx-color/sketch';
 import { ElementRef, ViewChildren, QueryList } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-referencias-marcas',
@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     ProgressBarComponent,
     ColorSketchModule,
-    RouterModule
+    RouterModule,
   ],
   templateUrl: './referencias-marcas.component.html',
   styleUrl: './referencias-marcas.component.css'
@@ -23,6 +23,10 @@ export class ReferenciasMarcasComponent {
   colorActivo: number|null = null;
 
   @ViewChildren('sketchRef') sketchRefs!: QueryList<ElementRef>;
+
+  constructor(private _router: Router) {
+
+  }
 
   abrirColorSketch(i: number, event: MouseEvent) {
     event.stopPropagation();
@@ -90,6 +94,6 @@ export class ReferenciasMarcasComponent {
   }
 
   siguiente() {
-    console.log('siguientw');
+    this._router.navigate(['/crear-post']);
   }
 }
