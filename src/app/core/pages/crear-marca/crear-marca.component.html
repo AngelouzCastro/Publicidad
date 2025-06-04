@@ -10,7 +10,7 @@
             <label class="form-label">Nombre</label>
             <input type="text" (focus)="colorActivo = null" class="form-control mb-3" style="padding:0.8rem; border-radius:8px;">
 
-            <label class="form-label">Vlores Impicitos</label>            <!-- <mat-label>Favorite Fruits</mat-label> -->
+            <label class="form-label">Valores Impicitos</label>            <!-- <mat-label>Favorite Fruits</mat-label> -->
             <div class="form-control mb-3 bg-white">
               <mat-chip-grid #chipGrid aria-label="Fruit selection">
                 @for (fruit of fruits(); track $index) {
@@ -23,7 +23,7 @@
                 }
               </mat-chip-grid>
               <input
-                class="form-control"
+                class="form-control mt-1"
                 name="currentFruit"
                 placeholder="New Fruit..."
                 #fruitInput
@@ -39,11 +39,23 @@
               </mat-autocomplete>
             </div>
             
-            
             <label class="form-label">Tono de comunicación</label>
             <input type="text" (focus)="colorActivo = null" class="form-control mb-3" style="padding:0.8rem; border-radius:8px;">
+            
             <label class="form-label">Tipografía</label>
-            <input type="text" (focus)="colorActivo = null" class="form-control mb-3" style="padding:0.8rem; border-radius:8px;">
+            <select class="form-select mb-3" [(ngModel)]="tipografia" name="tipografia" style="padding:0.8rem; border-radius:8px;">
+              <option value="Poppins" style="font-family: 'Poppins', sans-serif;">Poppins</option>
+              <option value="Roboto" style="font-family: 'Roboto', sans-serif;">Roboto</option>
+              <option value="Montserrat" style="font-family: 'Montserrat', sans-serif;">Montserrat</option>
+              <option value="Open Sans" style="font-family: 'Open Sans', sans-serif;">Open Sans</option>
+              <option value="Lato" style="font-family: 'Lato', sans-serif;">Lato</option>
+              <option value="Oswald" style="font-family: 'Oswald', sans-serif;">Oswald</option>
+              <option value="Raleway" style="font-family: 'Raleway', sans-serif;">Raleway</option>
+              <option value="Playfair Display" style="font-family: 'Playfair Display', serif;">Playfair Display</option>
+              <option value="Merriweather" style="font-family: 'Merriweather', serif;">Merriweather</option>
+              <option value="Bebas Neue" style="font-family: 'Bebas Neue', cursive;">Bebas Neue</option>
+            </select>
+
             <label class="form-label">Temas frecuentes</label>
             <input type="text" (focus)="colorActivo = null" class="form-control mb-3" style="padding:0.8rem; border-radius:8px;">
             <div class="d-flex justify-content-between mt-4">
@@ -126,6 +138,7 @@
             <input type="text"
               [(ngModel)]="colores[colorActivo]"
               maxlength="7"
+              name="color"
               [ngModelOptions]="{standalone: true}"
               class="form-control"
               style="width: 110px;"

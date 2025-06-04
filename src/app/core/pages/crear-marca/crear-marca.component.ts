@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, model, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, Injectable, model, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ColorSketchModule } from 'ngx-color/sketch';
-import { ProgressBarComponent } from '../../shared/progress-bar/progress-bar.component';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,7 +11,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { ChangeDetectorRef } from '@angular/core';
 
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   standalone: true,
   selector: 'app-crear-marca',
@@ -22,7 +25,6 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
     CommonModule, 
     FormsModule, 
     ColorSketchModule,
-    ProgressBarComponent,
     ReactiveFormsModule,
     RouterModule,
     MatFormFieldModule, 
@@ -38,9 +40,10 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 export class CrearMarcaComponent {
   pasoActual: any;
   logoUrl: string | ArrayBuffer | null = null;
+  tipografia = 'Poppins';
 
   readonly currentFruit = model('');
-  readonly fruits = signal(['Lemon']);
+  readonly fruits = signal(['inovacion']);
   readonly allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
   readonly filteredFruits = computed(() => {
     const currentFruit = this.currentFruit().toLowerCase();
@@ -53,6 +56,7 @@ export class CrearMarcaComponent {
   @ViewChildren('sketchRef') sketchRefs!: QueryList<ElementRef>;
   colores: string[] = ['#3B5BDB']; // Mínimo 2 colores por defecto
   colorActivo: any = 0;
+  constructor(private cdr: ChangeDetectorRef) {}
 
 
   add(event: MatChipInputEvent): void {
@@ -110,7 +114,10 @@ export class CrearMarcaComponent {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const reader = new FileReader();
-      reader.onload = e => this.logoUrl = reader.result;
+      reader.onload = e => {
+        this.logoUrl = reader.result;
+        this.cdr.markForCheck();
+      };
       reader.readAsDataURL(input.files[0]);
     }
   }

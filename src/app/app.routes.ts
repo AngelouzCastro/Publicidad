@@ -9,15 +9,18 @@ import { ReferenciasMarcasComponent } from './core/pages/referencias-marcas/refe
 import { CrearPostComponent } from './core/pages/crear-post/crear-post.component';
 import { PostDescripcionComponent } from './core/pages/post-descripcion/post-descripcion.component';
 import { PostResultadoComponent } from './core/pages/post-resultado/post-resultado.component';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   {
     path: '',
     component: DashboardComponent,
+    // canActivate: [authGuard],
     children: [
-      { path: 'dashboard', component: HomeComponent }, // Página de inicio
-      { path: 'home', component: HomeComponent }, // Página de inicio
+      { path: 'dashboard', component: HomeComponent },
+      { path: 'home', component: HomeComponent },
       { path: 'mis-marcas', component: MarcasComponent },
       { path: 'crear-marca', component: CrearMarcaComponent },
       { path: 'referencia-marca', component: ReferenciasMarcasComponent },
@@ -25,8 +28,7 @@ export const routes: Routes = [
       { path: 'post-descripcion', component: PostDescripcionComponent },
       { path: 'post-resultado', component: PostResultadoComponent },
       { path: 'configuracion', component: ConfiguracionComponent },
-      { path: '**', redirectTo: 'dashboard' }, // Redirige a la página de inicio si la ruta no coincide con ninguna de las hijas
-      // Agrega aquí más rutas hijas si tienes más páginas
+      { path: '**', redirectTo: 'dashboard' },
     ]
   }
 ];
