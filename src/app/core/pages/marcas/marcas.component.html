@@ -3,11 +3,27 @@
   <ng-container *ngIf="marcas && marcas.length > 0; else noBrands">
     <div class="brands-grid">
       <div *ngFor="let marca of marcas" class="brand-card">
+        <div class="edit position-absolute" style="right: 15px; top: 5px;">
+          <button *ngIf="origin === 'brands'" mat-icon-button [matMenuTriggerFor]="menu" class="btn">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu class="bg-white" #menu="matMenu">
+            <button mat-menu-item (click)="editBrand(marca.id)">
+              <mat-icon>edit</mat-icon>
+              <span>Editar marca</span>
+            </button>
+            <button mat-menu-item (click)="deleteBrand(marca.id)">
+              <mat-icon>delete</mat-icon>
+              <span>Eliminar marca</span>
+            </button>
+          </mat-menu>
+        </div>
         <div class="brand-logo">
           <span>LOGO</span>
         </div>
-        <div class="brand-name">
-          <strong>{{ marca.nombre }}</strong>
+        <div class="brand-name d-flex flex-column align-items-center">
+          <strong>{{ marca.name }}</strong>
+          <small>{{ marca.description }}</small>
         </div>
       </div>
       <button class="brand-card add-card" type="button" (click)="abrirCreateBrandView($event)">
@@ -18,7 +34,7 @@
   <ng-template #noBrands>
     <div class="no-brands">
       <p style="font-size:1.3rem; color:#333; margin-bottom:1.5rem;">Aún no tienes marcas registradas.</p>
-      <button class="add-card" (click)="abrirCreateBrandView($event)" style="width:180px; height:180px; font-size:3rem;">
+      <button *ngIf="origin === 'brands'" class="add-card" (click)="abrirCreateBrandView($event)" style="width:180px; height:180px; font-size:3rem;">
         +
       </button>
       <p style="margin-top:1rem; color:#555;">Haz clic para añadir tu primera marca</p>

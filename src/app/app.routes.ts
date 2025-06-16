@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './core/auth/login/login.component';
+import { RegisterComponent } from './core/auth/register/register.component';
 import { DashboardComponent } from './core/pages/dashboard/dashboard.component';
 import { HomeComponent } from './core/pages/home/home.component';
 import { MarcasComponent } from './core/pages/marcas/marcas.component';
@@ -14,6 +15,8 @@ import { authGuard } from './core/guards/auth.guard';
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  // { path: '**', redirectTo: 'login'},
   {
     path: '',
     component: DashboardComponent,
@@ -21,8 +24,11 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: HomeComponent },
       { path: 'home', component: HomeComponent },
-      { path: 'mis-marcas', component: MarcasComponent },
+      { path: 'brands/mis-marcas', component: MarcasComponent, data: { origin: 'brands'} },
+      { path: 'posts/mis-marcas', component: MarcasComponent, data: { origin: 'posts' } },
       { path: 'crear-marca', component: CrearMarcaComponent },
+      { path: 'crear-marca/:id', component: CrearMarcaComponent },
+
       { path: 'referencia-marca', component: ReferenciasMarcasComponent },
       { path: 'crear-post', component: CrearPostComponent },
       { path: 'post-descripcion', component: PostDescripcionComponent },

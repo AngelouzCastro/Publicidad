@@ -1,22 +1,26 @@
 
-<div class="bg-light min-vh-100 py-4" (document:click)="onDocumentClick($event)">
+<!-- (document:click)="onDocumentClick($event)" -->
+<div class="bg-light min-vh-100 py-4" >
   <div class="container">
     <div class="bg-white rounded-4 p-4 mx-auto shadow" style="max-width: 1100px;">
-      <h1 class="fw-bold mb-4" style="font-size:2.5rem; color:#222;">Generar Marca</h1>
+      <h1 class="fw-bold mb-4" style="font-size:2.5rem; color:#222;">Crear Marca</h1>
       <div class="row">
         <!-- Columna izquierda: datos generales -->
         <div class="col-md-6 border-end">
-          <form>
+          <form [formGroup]="brandForm">
             <label class="form-label">Nombre</label>
-            <input type="text" (focus)="colorActivo = null" class="form-control mb-3" style="padding:0.8rem; border-radius:8px;">
+            <input type="text" (focus)="colorActivo = null" class="form-control mb-3" formControlName="brandName" style="padding:0.8rem; border-radius:8px;">
+            
+            <label class="form-label">Descripción</label>
+            <input type="text" (focus)="colorActivo = null" class="form-control mb-3" formControlName="description" style="padding:0.8rem; border-radius:8px;">
 
             <label class="form-label">Valores Impicitos</label>            <!-- <mat-label>Favorite Fruits</mat-label> -->
             <div class="form-control mb-3 bg-white">
               <mat-chip-grid #chipGrid aria-label="Fruit selection">
-                @for (fruit of fruits(); track $index) {
-                  <mat-chip-row (removed)="remove(fruit)">
-                    {{fruit}}
-                    <button matChipRemove [attr.aria-label]="'remove ' + fruit">
+                @for (element of implicitValues(); track $index) {
+                  <mat-chip-row (removed)="remove(element)">
+                    {{element}}
+                    <button matChipRemove [attr.aria-label]="'remove ' + element">
                       <mat-icon>cancel</mat-icon>
                     </button>
                   </mat-chip-row>
@@ -25,6 +29,7 @@
               <input
                 class="form-control mt-1"
                 name="currentFruit"
+                formControlName="implicitValues"
                 placeholder="New Fruit..."
                 #fruitInput
                 [(ngModel)]="currentFruit"
@@ -40,10 +45,16 @@
             </div>
             
             <label class="form-label">Tono de comunicación</label>
-            <input type="text" (focus)="colorActivo = null" class="form-control mb-3" style="padding:0.8rem; border-radius:8px;">
+            <select class="form-select mb-3" [(ngModel)]="tonoSeleccionado" name="tonoComunicacion" formControlName="tones" style="padding:0.8rem; border-radius:8px;">
+              <ng-container *ngFor="let grupo of (valueTones | keyvalue)">
+                <optgroup [label]="grupo.key">
+                  <option *ngFor="let tono of grupo.value" [value]="tono">{{ tono }}</option>
+                </optgroup>
+              </ng-container>
+            </select>
             
             <label class="form-label">Tipografía</label>
-            <select class="form-select mb-3" [(ngModel)]="tipografia" name="tipografia" style="padding:0.8rem; border-radius:8px;">
+            <select class="form-select mb-3" [(ngModel)]="tipografia" name="tipografia" formControlName="tipo" style="padding:0.8rem; border-radius:8px;">
               <option value="Poppins" style="font-family: 'Poppins', sans-serif;">Poppins</option>
               <option value="Roboto" style="font-family: 'Roboto', sans-serif;">Roboto</option>
               <option value="Montserrat" style="font-family: 'Montserrat', sans-serif;">Montserrat</option>
@@ -55,19 +66,18 @@
               <option value="Merriweather" style="font-family: 'Merriweather', serif;">Merriweather</option>
               <option value="Bebas Neue" style="font-family: 'Bebas Neue', cursive;">Bebas Neue</option>
             </select>
-
-            <label class="form-label">Temas frecuentes</label>
-            <input type="text" (focus)="colorActivo = null" class="form-control mb-3" style="padding:0.8rem; border-radius:8px;">
+            
             <div class="d-flex justify-content-between mt-4">
               <button type="button"
                       class="btn btn-outline-primary px-4 py-2"
                       style="font-weight:600; border-radius:8px;"
-                      routerLink="/mis-marcas">
+                      routerLink="/brands/mis-marcas">
                 Cancelar
               </button>
               <button type="button"
                       class="btn btn-primary px-4 py-2"
-                      style="font-weight:600; border-radius:8px; background:#3B5BDB; border:none;">
+                      style="font-weight:600; border-radius:8px; background:#3B5BDB; border:none;"
+                      (click)="saveBrand()">
                 Crear marca
               </button>
             </div>
@@ -83,14 +93,17 @@
               <div class="d-flex align-items-center justify-content-center bg-light"
                    style="width:90px; height:90px; border:2px solid #d6eaf8; border-radius:16px; transition:box-shadow 0.2s; position:relative;"
                    [style.boxShadow]="logoUrl ? '0 0 0 2px #3B5BDB' : '0 0 0 2px #d6eaf8'">
-                <ng-container *ngIf="!logoUrl">
+                
+                   <ng-container *ngIf="!logoUrl">
                   <span class="d-flex align-items-center justify-content-center w-100 h-100" style="font-size:3rem; color:#23a6d5;">
                     +
                   </span>
                 </ng-container>
+
                 <ng-container *ngIf="logoUrl">
                   <img [src]="logoUrl" alt="Logo seleccionado" class="rounded-3" style="width:80px; height:80px; object-fit:cover;">
                 </ng-container>
+                
               </div>
               <input id="logoInput" type="file" accept="image/*" (change)="onLogoSelected($event)" hidden>
             </label>

@@ -12,13 +12,13 @@
       </div>
       <h1 class="fs-1 fw-bold text-dark mb-2">Iniciar sesión</h1>
       <p class="text-secondary mb-4" style="font-size:1.15rem;">Introduce tus credenciales</p>
-      <form (ngSubmit)="onSubmit()">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="mb-3">
           <input
             type="email"
             placeholder="Correo electrónico"
             class="form-control py-3 fs-5"
-            [(ngModel)]="email"
+            formControlName="email"
             name="email"
             required
             [ngClass]="{'is-invalid': emailInvalid}"
@@ -29,7 +29,14 @@
           </div>
         </div>
         <div class="mb-3">
-          <input type="password" placeholder="Contraseña" class="form-control py-3 fs-5" style="height:54px;" />
+          <input 
+            formControlName="password"
+            name="password"
+            required
+            type="password" 
+            placeholder="Contraseña" 
+            class="form-control py-3 fs-5" 
+            style="height:54px;" />
         </div>
         <div class="mb-4">
           <a href="#" class="text-primary text-decoration-none" style="font-size:1.05rem;">¿Olvidaste tu contraseña?</a>
@@ -39,8 +46,12 @@
           <img src="../../../../assets/google-icon.svg" alt="Google" style="width:24px; height:24px;">
           Iniciar con Google
         </button>
+        <button type="button" class="btn btn-outline-primary w-100 py-3 d-flex align-items-center justify-content-center gap-2 mb-2 fs-5" style="height:54px; background:#1877f2; color:#fff; border:none;" (click)="loginWithFacebook()">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" alt="Facebook" style="width:24px; height:24px;">
+          Iniciar con Facebook
+        </button>
       </form>
-      <p class="mt-4 text-center text-dark" style="font-size:1.08rem;">¿No tienes cuenta? <a href="#" class="text-primary text-decoration-none">Regístrate</a></p>
+      <p class="mt-4 text-center text-dark" style="font-size:1.08rem;">¿No tienes cuenta? <a routerLink="/register" class="text-primary text-decoration-none">Regístrate</a></p>
     </div>
     <div class="login-illustration d-none d-md-flex flex-column align-items-center justify-content-center ms-md-5">
       <div class="bg-transparent d-flex align-items-center justify-content-center mb-3" style="width: 200px; height: 200px;">

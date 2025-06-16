@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { User } from '../../interfaces/user.interfaz';
 // import { Auth, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
 
@@ -13,7 +13,8 @@ import { User } from '../../interfaces/user.interfaz';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.componet.css']
@@ -32,17 +33,20 @@ export class LoginComponent {
   _router = inject(Router);
 
 
-  onSubmit() {
+  async onSubmit() {
+    console.log('click en login');
+    console.log(this.loginForm.value);
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
     } else {
-      this._authServie.logIn(this.loginForm.value as User).then(
-        resp => {
-        this._router.navigate(['/dashboard']);
-      })
-      .catch(error => {
+      await this._authServie.logIn(this.loginForm.value as User).subscribe({
+        next: () => {
+          this._router.navigate(['/dashboard']);
+        },
+        error: (error) => {
           console.log(error);
+        }
       });
     }
     // Implementar lógica de inicio de sesión
@@ -53,10 +57,22 @@ export class LoginComponent {
   async loginWithGoogle() {
     this._authServie.logInGoogle().then(
       resp => {
+        console.log(resp, 'todo fine');
         this._router.navigate(['/dashboard']);
       })
       .catch(error => {
         console.log(error);
       });
+  }
+
+  async loginWithFacebook() {
+    this._authServie.logInFacebook().then(
+      resp => {
+        this._router.navigate(['/dashboard']);
+      },
+      err => {
+        console.error(err);
+      }
+    );
   }
 }

@@ -1,0 +1,61 @@
+.login-background {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.container {
+  width: 100%;
+  max-width: 100vw;
+  padding: 0 1rem;
+}
+.login-form {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column !important;
+    padding: 0 0.5rem;
+  }
+  .login-form {
+    max-width: 100%;
+    padding: 1.5rem 0.5rem;
+  }
+  .login-illustration {
+    display: none !important;
+  }
+}
+@media (max-width: 480px) {
+  .login-form {
+    padding: 1rem 0.25rem;
+  }
+}
+.dot {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.25;
+    animation: float 6s infinite alternate;
+}
+.dot1 { width: 80px; height: 80px; background: #3B5BDB; top: 10%; left: 8%; animation-delay: 0s;}
+.dot2 { width: 40px; height: 40px; background: #FFB400; top: 70%; left: 15%; animation-delay: 1s;}
+.dot3 { width: 60px; height: 60px; background: #FF6B6B; top: 30%; left: 80%; animation-delay: 2s;}
+.dot4 { width: 30px; height: 30px; background: #3B5BDB; top: 80%; left: 75%; animation-delay: 3s;}
+.dot5 { width: 100px; height: 100px; background: #FFB400; top: 50%; left: 60%; animation-delay: 4s;}
+@keyframes float {
+    0% { transform: translateY(0) scale(1);}
+    100% { transform: translateY(-30px) scale(1.1);}
+}
+.login-container, .login-form, .login-logo-title, .logo-text, .subtitle, .login-input, .login-btn, .google-btn, .register-text, .register-link {
+    font-family: 'Poppins', Arial, sans-serif !important;
+}
+.input-error {
+    border-color: #FF6B6B !important;
+}

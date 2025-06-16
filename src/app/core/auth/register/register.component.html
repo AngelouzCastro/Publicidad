@@ -1,0 +1,54 @@
+<div class="login-background position-relative min-vh-100">
+  <span class="dot dot1"></span>
+  <span class="dot dot2"></span>
+  <span class="dot dot3"></span>
+  <span class="dot dot4"></span>
+  <span class="dot dot5"></span>
+  <div class="container d-flex flex-column flex-md-row align-items-center justify-content-center min-vh-100">
+    <div class="login-form bg-white rounded-4 shadow p-4 p-md-5 mx-auto" style="max-width: 500px; width: 100%;">
+      <div class="d-flex align-items-center gap-2 mb-4">
+        <div class="border border-4 border-primary rounded-circle" style="width:36px; height:36px;"></div>
+        <span class="fs-3 fw-semibold text-dark">Registro</span>
+      </div>
+      <h1 class="fs-1 fw-bold text-dark mb-2">Crear cuenta</h1>
+      <p class="text-secondary mb-4" style="font-size:1.15rem;">Completa los datos para registrarte</p>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <input type="text" placeholder="Nombre completo" class="form-control py-3 fs-5" formControlName="name" style="height:54px;" />
+        </div>
+        <div class="mb-3">
+          <input type="email" placeholder="Correo electrónico" class="form-control py-3 fs-5" formControlName="email" style="height:54px;" />
+        </div>
+        <div class="mb-3">
+          <input type="password" placeholder="Contraseña" class="form-control py-3 fs-5" formControlName="password" style="height:54px;" />
+        </div>
+        <div class="mb-3">
+          <input type="text" placeholder="URL de foto (opcional)" class="form-control py-3 fs-5" formControlName="picture" style="height:54px;" />
+        </div>
+        <div class="mb-3">
+          <input type="text" placeholder="Facebook ID (opcional)" class="form-control py-3 fs-5" formControlName="facebookId" style="height:54px;" />
+        </div>
+        <div class="mb-3">
+          <input type="text" placeholder="Facebook Access Token (opcional)" class="form-control py-3 fs-5" formControlName="facebookUserAccessTokenLongLived" style="height:54px;" />
+        </div>
+        <button type="submit" class="btn btn-primary w-100 py-3 mb-3 fw-semibold fs-5" style="height:54px;" [disabled]="loading">Registrarse</button>
+        <div *ngIf="success" class="alert alert-success mt-2">¡Registro exitoso!</div>
+        <div *ngIf="error" class="alert alert-danger mt-2">{{error}}</div>
+      </form>
+      <p class="mt-4 text-center text-dark" style="font-size:1.08rem;">¿Ya tienes cuenta? <a routerLink="/login" class="text-primary text-decoration-none">Inicia sesión</a></p>
+    </div>
+    <div class="login-illustration d-none d-md-flex flex-column align-items-center justify-content-center ms-md-5">
+      <div class="bg-transparent d-flex align-items-center justify-content-center mb-3" style="width: 200px; height: 200px;">
+        <img src="../../../../assets/logo.jpeg"
+             alt="Ilustración laptop paleta"
+             class="img-fluid"
+             style="max-width: 100%; max-height: 100%; object-fit: contain; background: transparent; border-radius: 0; box-shadow: none; image-rendering: auto;" />
+      </div>
+      <div class="text-center px-3">
+        <span style="font-size:1.25rem; font-weight:500; color:#222; line-height:1.4; background:rgba(255,255,255,0.85); border-radius:12px; padding:0.75rem 1.2rem; box-shadow:0 2px 12px 0 rgba(60,80,180,0.07); display:inline-block;">
+          La forma más sencilla de hacer <span style="color:#3B5BDB; font-weight:600;">publicidad</span> a tu marca
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
