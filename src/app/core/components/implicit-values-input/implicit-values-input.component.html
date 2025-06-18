@@ -1,1 +1,28 @@
-<p>implicit-values-input works!</p>
+<div class="form-control">
+  <mat-form-field class="w-100">
+    <mat-label>Seleccion {{ label }}</mat-label>
+    <mat-chip-grid #chipGrid aria-label="Selección de valores">
+      @for (value of selectedValues(); track $index) {
+        <mat-chip-row (removed)="remove(value)">
+          {{value}}
+          <button matChipRemove [attr.aria-label]="'remover ' + value">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      }
+    </mat-chip-grid>
+    <input
+      class="mt-2"
+      [placeholder]="placeholder"
+      [formControl]="formControl"
+      [matChipInputFor]="chipGrid"
+      [matAutocomplete]="auto"
+      (matChipInputTokenEnd)="add($event)"
+    />
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      @for (value of filteredValues | async; track value) {
+        <mat-option [value]="value">{{value}}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+</div>

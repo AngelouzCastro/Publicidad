@@ -1,18 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, Injectable, model, signal } from '@angular/core';
-import { FormGroup, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, inject, Injectable, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { FormGroup, FormControl, FormsModule, ReactiveFormsModule, Validators, FormBuilder } from '@angular/forms';
 import { ColorSketchModule } from 'ngx-color/sketch';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { MatIconModule } from '@angular/material/icon';
-import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
+
+// import { MatIconModule } from '@angular/material/icon';
+// import { MatAutocompleteModule } from '@angular/material/autocomplete';
+// import { MatChipsModule } from '@angular/material/chips';
+
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ChangeDetectorRef } from '@angular/core';
 import { BrandsService } from '../../services/brands.service';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ImplicitValuesInputComponent } from '../../components/implicit-values-input/implicit-values-input.component'; // Importa el nuevo componente
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,18 +25,16 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
   templateUrl: './crear-marca.component.html',
   styleUrl: './crear-marca.component.css',
   imports: [
-    CommonModule, 
-    FormsModule, 
+    CommonModule,
+    FormsModule,
     ColorSketchModule,
     ReactiveFormsModule,
     RouterModule,
-    MatFormFieldModule, 
+    MatFormFieldModule,
     MatSelectModule,
-    MatChipsModule,
-    MatIconModule, 
-    MatAutocompleteModule,
-    FormsModule
-  ],
+    FormsModule,
+    ImplicitValuesInputComponent
+],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
@@ -47,9 +48,6 @@ export class CrearMarcaComponent {
 
   isEditing = false;
   id!: string;
-
-  readonly currentFruit = model('');
-  implicitValues = signal(['inovación']);
 
   readonly allValues: string[] = [
     'Sostenibilidad',
@@ -77,12 +75,6 @@ export class CrearMarcaComponent {
     'Valor agregado',
     'Servicio personalizado'
   ];
-  readonly filteredFruits = computed(() => {
-    const currentFruit = this.currentFruit().toLowerCase();
-    return currentFruit
-      ? this.allValues.filter(element => element.toLowerCase().includes(currentFruit))
-      : this.allValues.slice();
-  });
 
   readonly announcer = inject(LiveAnnouncer);
   @ViewChildren('sketchRef') sketchRefs!: QueryList<ElementRef>;
@@ -107,13 +99,14 @@ export class CrearMarcaComponent {
   });
 
   constructor(
-    private cdr: ChangeDetectorRef,
-    private _router: Router,
+    private fb: FormBuilder,
+    private _brandsService: BrandsService,
     private _activatedRouter: ActivatedRoute,
-    private _brandsService: BrandsService
-  ) {}
+    private _router: Router,
+    private cdr: ChangeDetectorRef,
+  ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this._activatedRouter.paramMap.subscribe((params: any) => {
       this.id = params.get('id') || '';
       this.isEditing = !!this.id;
@@ -123,42 +116,8 @@ export class CrearMarcaComponent {
     })
   }
 
-
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-
-    // Add our fruit
-    if (this.implicitValues().includes(value)) {
-      this.implicitValues.update(element => [...element, value]);
-    }
-
-    // Clear the input value
-    this.currentFruit.set('');
-  }
-
-  remove(fruit: string): void {
-    this.implicitValues.update(element => {
-      const index = element.indexOf(fruit);
-      if (index < 0) {
-        return element;
-      }
-
-      element.splice(index, 1);
-      this.announcer.announce(`Removed ${fruit}`);
-      return [...element];
-    });
-  }
-
-  selected(event: MatAutocompleteSelectedEvent): void {
-    const value = event.option.viewValue;
-      
-    const search = this.implicitValues().find(item => item === value);
-    if (!search) {
-      this.implicitValues.update(element => [...element, event.option.viewValue]);
-    }
-
-    this.currentFruit.set('');
-    event.option.deselect();
+  onImplicitValuesChange(values: string[]) {
+    this.brandForm.get('implicitValues')?.setValue(values);
   }
 
   abrirColorSketch(i: number, event: MouseEvent) {
@@ -266,9 +225,9 @@ export class CrearMarcaComponent {
       this.colores.forEach((color, index) => {
         brandData2.colors.push({ name: `Color ${index + 1}`, hex: color});
       });
-      this.implicitValues().forEach((value, index) => {
-        brandData2.principles.push({ name: `Valor implícito ${index + 1}`, description: value});
-      });
+      // this.implicitValues().forEach((value, index) => {
+      //   brandData2.principles.push({ name: `Valor implícito ${index + 1}`, description: value});
+      // });
       brandData2.tones.push({ name: brandData.tones, description: this.tonoSeleccionado });
       console.log('brandData2', brandData2);
 
@@ -300,7 +259,7 @@ export class CrearMarcaComponent {
         this.brandForm.get('tipo')?.setValue(response.typography);
         
         this.colores = response.colors.map((color: any) => color.hex);
-        this.implicitValues.set(response.principles.map((value: any) => value.description));
+        // this.implicitValues.set(response.principles.map((value: any) => value.description));
         // this.tonoSeleccionado = response.tones[0].description;
       }
     )

@@ -15,36 +15,13 @@
             <input type="text" (focus)="colorActivo = null" class="form-control mb-3" formControlName="description" style="padding:0.8rem; border-radius:8px;">
 
             <label class="form-label">Valores Impicitos</label>            <!-- <mat-label>Favorite Fruits</mat-label> -->
-            <div class="form-control mb-3 bg-white">
-              <mat-chip-grid #chipGrid aria-label="Fruit selection">
-                @for (element of implicitValues(); track $index) {
-                  <mat-chip-row (removed)="remove(element)">
-                    {{element}}
-                    <button matChipRemove [attr.aria-label]="'remove ' + element">
-                      <mat-icon>cancel</mat-icon>
-                    </button>
-                  </mat-chip-row>
-                }
-              </mat-chip-grid>
-              <input
-                class="form-control mt-1"
-                name="currentFruit"
-                formControlName="implicitValues"
-                placeholder="New Fruit..."
-                #fruitInput
-                [(ngModel)]="currentFruit"
-                [matChipInputFor]="chipGrid"
-                [matAutocomplete]="auto"
-                (matChipInputTokenEnd)="add($event)"
-              />
-              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event); fruitInput.value = ''">
-                @for (fruit of filteredFruits(); track fruit) {
-                  <mat-option class="bg-white" [value]="fruit">{{fruit}}</mat-option>
-                }
-              </mat-autocomplete>
-            </div>
+            <app-implicit-values-input
+              label="Valores Impícitos"
+              [allPossibleValues]="allValues"
+              (valuesChange)="onImplicitValuesChange($event)"
+            ></app-implicit-values-input>
             
-            <label class="form-label">Tono de comunicación</label>
+            <label class="form-label mt-2">Tono de comunicación</label>
             <select class="form-select mb-3" [(ngModel)]="tonoSeleccionado" name="tonoComunicacion" formControlName="tones" style="padding:0.8rem; border-radius:8px;">
               <ng-container *ngFor="let grupo of (valueTones | keyvalue)">
                 <optgroup [label]="grupo.key">

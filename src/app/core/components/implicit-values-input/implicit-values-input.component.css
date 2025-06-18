@@ -1,0 +1,38 @@
+mat-form-field {
+  background-color: white !important; /* Forzar el fondo blanco */
+  border-radius: 8px;
+  padding: 0.8rem;
+}
+
+mat-form-field .mat-mdc-form-field-flex {
+  background-color: white !important; /* Forzar el fondo blanco */
+}
+
+mat-form-field .mat-mdc-text-field-wrapper {
+  background-color: white !important; /* Forzar el fondo blanco */
+}
+
+mat-chip-grid {
+  background-color: transparent; /* O el color que desees si no quieres que sea transparente */
+}
+
+mat-chip-row {
+    border: 1px solid #7c83f7; /* Borde gris claro */;
+    color: white !important; /* Color del texto de los chips */;
+    background-color: white !important; /*Color morado con !important*/
+    color: white !important; /* Color del texto de los chips con !important */
+}
+
+mat-autocomplete {
+  background-color: white !important;
+}
+
+.mat-primary {
+    --mat-full-pseudo-checkbox-selected-icon-color: #3f51b5;
+    --mat-full-pseudo-checkbox-selected-checkmark-color: #fafafa;
+    --mat-full-pseudo-checkbox-unselected-icon-color: rgba(0, 0, 0, 0.54);
+    --mat-full-pseudo-checkbox-disabled-selected-checkmark-color: #fafafa;
+    --mat-full-pseudo-checkbox-disabled-unselected-icon-color: #b0b0b0;
+    --mat-full-pseudo-checkbox-disabled-selected-icon-color: #0dcaf0;
+}
+/* Agrega estilos específicos para tu componente aquí */
