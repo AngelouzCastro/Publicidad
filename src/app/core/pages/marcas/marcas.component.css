@@ -1,9 +1,14 @@
 .brands-grid {
   display: grid;
-  grid-template-columns: repeat(2, 260px);
-  gap: 2rem;
-  margin: 2rem auto;
-  justify-content: flex-start;
+  grid-template-columns: repeat(auto-fill, 250px); /* Changed to fixed 250px columns */
+  gap: 20px;
+  padding: 20px;
+  justify-items: center; /* Centers items horizontally within their grid area */
+  align-items: start;
+  width: 100%;
+  /* max-width: 1200px; */ /* Removed to allow full width */
+  margin: 0 auto; /* Centers the grid container itself */
+  justify-content: center; /* Changed to center to group cards if not enough to fill row */
 }
 .brand-card {
   background: #f3f8fa;
@@ -14,7 +19,8 @@
   align-items: center;
   position: relative;
   min-height: 180px;
-  min-width: 220px;
+  min-width: 250px; /* Ensure minimum width */
+  width: 250px; /* Set fixed width */
   box-shadow: 0 2px 8px 0 rgba(60,80,180,0.04);
 }
 .brand-logo {
@@ -44,7 +50,9 @@
   border: none;
   border-radius: 20px;
   min-height: 180px;
-  min-width: 220px;
+  min-width: 250px; /* Ensure minimum width */
+  width: 250px; /* Set fixed width */
+  height: 202px;
   font-size: 3rem;
   box-shadow: 0 2px 8px 0 rgba(60,80,180,0.04);
   transition: background 0.2s;

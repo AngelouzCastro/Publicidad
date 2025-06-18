@@ -8,9 +8,9 @@ import { firebaseConfig } from '../environments/environment';
 import { importProvidersFrom } from '@angular/core';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
-import { provideFirebaseApp } from '@angular/fire/app';
-import { provideStorage, getStorage } from '@angular/fire/storage';
+import { HttpClientModule, provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 initializeApp(firebaseConfig);
 
@@ -18,7 +18,10 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes), 
-    provideHttpClient(withFetch()),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([AuthInterceptor])
+    ),
     provideClientHydration(withEventReplay()),
     importProvidersFrom(
       HttpClientModule,

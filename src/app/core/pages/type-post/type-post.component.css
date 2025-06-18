@@ -1,0 +1,70 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+header {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.type-selection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+mat-card {
+  cursor: pointer;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+mat-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+mat-card.selected {
+  border: 2px solid var(--mdc-theme-primary, #6200ee); /* Use primary color from theme */
+}
+
+.type-icon-placeholder {
+  width: 100%;
+  height: 100px; /* Adjust as needed */
+  background-color: #f0f0f0; /* Placeholder background */
+  margin-top: 10px;
+  border-radius: 4px;
+}
+
+footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
+  border-top: 1px solid #eee;
+  gap: 8px;
+}
+
+.type-image-container {
+  width: 100%;
+  height: 150px; /* Ajusta la altura según sea necesario */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  margin-top: 10px;
+  border-radius: 4px;
+  background-color: #f0f0f0; /* Fondo para el contenedor de la imagen */
+}
+
+.type-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Asegura que la imagen se ajuste sin recortarse */
+}

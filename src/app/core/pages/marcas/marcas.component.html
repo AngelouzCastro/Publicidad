@@ -2,7 +2,7 @@
   <h1 style="font-size:2.5rem; font-weight:700; color:#222; margin-bottom:2rem;">Mis marcas</h1>
   <ng-container *ngIf="marcas && marcas.length > 0; else noBrands">
     <div class="brands-grid">
-      <div *ngFor="let marca of marcas" class="brand-card">
+      <div *ngFor="let marca of marcas" class="brand-card" style="cursor: pointer;" (click)="createPost()">
         <div class="edit position-absolute" style="right: 15px; top: 5px;">
           <button *ngIf="origin === 'brands'" mat-icon-button [matMenuTriggerFor]="menu" class="btn">
             <mat-icon>more_vert</mat-icon>
@@ -26,7 +26,7 @@
           <small>{{ marca.description }}</small>
         </div>
       </div>
-      <button class="brand-card add-card" type="button" (click)="abrirCreateBrandView($event)">
+      <button *ngIf="origin === 'brands'" class="brand-card add-card" type="button" (click)="abrirCreateBrandView($event)">
         <span class="add-icon">+</span>
       </button>
     </div>

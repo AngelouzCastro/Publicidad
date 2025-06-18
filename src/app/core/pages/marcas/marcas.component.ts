@@ -66,4 +66,11 @@ export class MarcasComponent {
         }
       });
   }
+
+  createPost() {    
+    if (this.origin === 'posts') {
+      console.log('createPost');
+      this._router.navigate(['/tipo-post']);
+    }
+  }
 }

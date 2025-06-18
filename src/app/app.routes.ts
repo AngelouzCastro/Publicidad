@@ -11,6 +11,7 @@ import { CrearPostComponent } from './core/pages/crear-post/crear-post.component
 import { PostDescripcionComponent } from './core/pages/post-descripcion/post-descripcion.component';
 import { PostResultadoComponent } from './core/pages/post-resultado/post-resultado.component';
 import { authGuard } from './core/guards/auth.guard';
+import { TypePostComponent } from './core/pages/type-post/type-post.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -20,7 +21,7 @@ export const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
-    // canActivate: [authGuard],
+    canActivate: [authGuard],
     children: [
       { path: 'dashboard', component: HomeComponent },
       { path: 'home', component: HomeComponent },
@@ -29,6 +30,7 @@ export const routes: Routes = [
       { path: 'crear-marca', component: CrearMarcaComponent },
       { path: 'crear-marca/:id', component: CrearMarcaComponent },
 
+      { path: 'tipo-post', component: TypePostComponent },
       { path: 'referencia-marca', component: ReferenciasMarcasComponent },
       { path: 'crear-post', component: CrearPostComponent },
       { path: 'post-descripcion', component: PostDescripcionComponent },

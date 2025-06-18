@@ -34,8 +34,6 @@ export class LoginComponent {
 
 
   async onSubmit() {
-    console.log('click en login');
-    console.log(this.loginForm.value);
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;

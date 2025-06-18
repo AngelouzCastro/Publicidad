@@ -44,10 +44,8 @@ export class AuthService {
 
   logInGoogle(): Promise<any> {
     return signInWithPopup(getAuth(), new GoogleAuthProvider()).then(result => {
-      console.log('result',result);
       
       result.user?.getIdToken().then(googleIdToken => {
-        console.log('googleIdToken', googleIdToken);
         this._http.post(`${environment.Back_server}/auth/google/ios`, { idToken: googleIdToken }).subscribe((response: any) => {
           localStorage.setItem('token', response.access_token);
           localStorage.setItem('user', JSON.stringify(response.user));
@@ -67,11 +65,12 @@ export class AuthService {
   }
 
   getUser() {
+    if (typeof window === 'undefined') return null;
     return JSON.parse(localStorage.getItem('user') || '{}');
   }
 
   isAuthenticated(): boolean {
-    const user = getAuth().currentUser;
+    const user = this.getUser();
     return user !== null;
   }
 
