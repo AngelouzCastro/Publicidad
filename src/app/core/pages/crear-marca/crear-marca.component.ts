@@ -6,15 +6,13 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 
-// import { MatIconModule } from '@angular/material/icon';
-// import { MatAutocompleteModule } from '@angular/material/autocomplete';
-// import { MatChipsModule } from '@angular/material/chips';
-
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ChangeDetectorRef } from '@angular/core';
 import { BrandsService } from '../../services/brands.service';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { ImplicitValuesInputComponent } from '../../components/implicit-values-input/implicit-values-input.component'; // Importa el nuevo componente
+import { valoresImplicitosMock } from '../../../../assets/mocks/valores-implicitos.mock';
+import { tonoComunicacionMock } from '../../../../assets/mocks/tonos-comunicacion.mock';
 
 @Injectable({
   providedIn: 'root'
@@ -49,45 +47,14 @@ export class CrearMarcaComponent {
   isEditing = false;
   id!: string;
 
-  readonly allValues: string[] = [
-    'Sostenibilidad',
-    'Honestidad',
-    'Transparencia',
-    'Responsabilidad social',
-    'Compromiso ético',
-    'Cercanía',
-    'Diversidad e inclusión',
-    'Respeto',
-    'Confianza',
-    'Optimismo',
-    'Innovación',
-    'Eficiencia',
-    'Liderazgo',
-    'Credibilidad',
-    'Puntualidad',
-    'Audacia',
-    'Curiosidad',
-    'Inspiración',
-    'Adaptabilidad',
-    'Vanguardia',
-    'Buen precio',
-    'Accesibilidad',
-    'Valor agregado',
-    'Servicio personalizado'
-  ];
+  nuevosValoresImplicitos = valoresImplicitosMock;
 
   readonly announcer = inject(LiveAnnouncer);
   @ViewChildren('sketchRef') sketchRefs!: QueryList<ElementRef>;
   colores: string[] = ['#3B5BDB']; // Mínimo 2 colores por defecto
   colorActivo: any = 0;
 
-  valueTones = {
-    'Formales / Profesionales': ['Corporativo', 'Educado y serio', 'Técnico o especializado', 'Jurídico/Institucional'],
-    'Informales / Cercanos': ['Amigable', 'Conversacional', 'Casual', 'Cálido y empático'],
-    'Emocionales': ['Motivacional', 'Inspirador', 'Apasionado', 'Humanitario'],
-    'Modernos y disruptivos': ['Sarcástico', 'Irónico', 'Rebelde', 'Divertido', 'Juvenil'],
-    'Comerciales': ['Promocional', 'Urgente / Escasez', 'Descriptivo', 'Persuasivo']
-  };
+  valueTones = tonoComunicacionMock;
   tonoSeleccionado: string = '';
 
   brandForm: FormGroup = new FormGroup({
@@ -118,6 +85,10 @@ export class CrearMarcaComponent {
 
   onImplicitValuesChange(values: string[]) {
     this.brandForm.get('implicitValues')?.setValue(values);
+  }
+
+  onTonesChange(values: string[]) {
+    this.brandForm.get('tones')?.setValue(values);
   }
 
   abrirColorSketch(i: number, event: MouseEvent) {
@@ -174,45 +145,19 @@ export class CrearMarcaComponent {
     }
   }
 
-  verListaColores() {
-    console.log(this.colores)
-  }
-
   actualizarColor(nuevoColor: string, index: number) {
     this.colores[index] = nuevoColor;
     this.colores = [...this.colores]; // Fuerza la detección de cambios
-  }
-
-  async subirImagen() {
-    console.log('entra a subir imagen')
-    if (!this.imagenSeleccionada) return;
-    console.log('entra a subir imagen', this.imagenSeleccionada)
-
-    const storage = getStorage();
-    const nombre = `imagenes/${Date.now()}_${this.imagenSeleccionada.name}`;
-    const storageRef = ref(storage, nombre);
-
-    try {
-      const snapshot = await uploadBytes(storageRef, this.imagenSeleccionada);
-      const url = await getDownloadURL(snapshot.ref);
-      this.urlImagen = url;
-      console.log('URL pública:', url);
-
-      // Aquí puedes guardar solo la URL en Firestore o usarla localmente
-    } catch (error) {
-      console.error('Error al subir imagen:', error);
-    }
   }
 
   async saveBrand() {
     console.log('hola')
     console.log('the value is ===>',this.brandForm.value);
     if (this.brandForm.valid) {
-      // Subir imagen si hay una seleccionada
-      // if (this.imagenSeleccionada) {
-      //   await this.subirImagen();
-      // }
+      console.log('datos validos');
+      
       const brandData = this.brandForm.value;
+      
       let brandData2: any = {
         name: brandData.brandName,
         description: brandData.description,
@@ -225,11 +170,14 @@ export class CrearMarcaComponent {
       this.colores.forEach((color, index) => {
         brandData2.colors.push({ name: `Color ${index + 1}`, hex: color});
       });
-      // this.implicitValues().forEach((value, index) => {
-      //   brandData2.principles.push({ name: `Valor implícito ${index + 1}`, description: value});
-      // });
-      brandData2.tones.push({ name: brandData.tones, description: this.tonoSeleccionado });
-      console.log('brandData2', brandData2);
+
+      brandData.implicitValues.forEach((value: string) => {
+        brandData2.principles.push({ name: value, description: 'This is a principal'});
+      });
+
+      brandData.tones.forEach((value: string) => {
+        brandData2.tones.push({ name: value, description: 'This is a tone'});
+      });
 
       if (this.isEditing) {
         console.log('brandData2', brandData2);

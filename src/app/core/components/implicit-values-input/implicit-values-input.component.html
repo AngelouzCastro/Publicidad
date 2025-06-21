@@ -20,8 +20,14 @@
       (matChipInputTokenEnd)="add($event)"
     />
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-      @for (value of filteredValues | async; track value) {
-        <mat-option [value]="value">{{value}}</mat-option>
+      @for (categoria of filteredValues | async; track categoria.categoria) {
+        <!-- Mostramos la categoría como un encabezado no seleccionable -->
+        <mat-optgroup [label]="`📍${categoria.categoria}`">
+          @for (subcategoria of categoria.subCategorias; track subcategoria) {
+            <!-- Mostramos las subcategorías como opciones seleccionables -->
+            <mat-option [value]="subcategoria">{{subcategoria}}</mat-option>
+          }
+        </mat-optgroup>
       }
     </mat-autocomplete>
   </mat-form-field>

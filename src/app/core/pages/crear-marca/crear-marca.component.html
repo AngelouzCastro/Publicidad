@@ -17,20 +17,18 @@
             <label class="form-label">Valores Impicitos</label>            <!-- <mat-label>Favorite Fruits</mat-label> -->
             <app-implicit-values-input
               label="Valores Impícitos"
-              [allPossibleValues]="allValues"
+              [allPossibleValues]="nuevosValoresImplicitos"
               (valuesChange)="onImplicitValuesChange($event)"
             ></app-implicit-values-input>
             
             <label class="form-label mt-2">Tono de comunicación</label>
-            <select class="form-select mb-3" [(ngModel)]="tonoSeleccionado" name="tonoComunicacion" formControlName="tones" style="padding:0.8rem; border-radius:8px;">
-              <ng-container *ngFor="let grupo of (valueTones | keyvalue)">
-                <optgroup [label]="grupo.key">
-                  <option *ngFor="let tono of grupo.value" [value]="tono">{{ tono }}</option>
-                </optgroup>
-              </ng-container>
-            </select>
+            <app-implicit-values-input
+              label="Tono de comunicación"
+              [allPossibleValues]="valueTones"
+              (valuesChange)="onTonesChange($event)"
+            ></app-implicit-values-input>
             
-            <label class="form-label">Tipografía</label>
+            <label class="form-label mt-2">Tipografía</label>
             <select class="form-select mb-3" [(ngModel)]="tipografia" name="tipografia" formControlName="tipo" style="padding:0.8rem; border-radius:8px;">
               <option value="Poppins" style="font-family: 'Poppins', sans-serif;">Poppins</option>
               <option value="Roboto" style="font-family: 'Roboto', sans-serif;">Roboto</option>
@@ -62,7 +60,7 @@
         </div>
         <!-- Columna derecha: logo y colores -->
         <div class="col-md-6 ps-md-5 mt-4 mt-md-0">
-          <button (click)="verListaColores()" class="btn w-100 mb-4" style="background:#7c83f7; color:#fff; font-size:1.1rem; font-weight:600;">
+          <button class="btn w-100 mb-4" style="background:#7c83f7; color:#fff; font-size:1.1rem; font-weight:600;">
             Entrar con red social
           </button>
           <div class="mb-4 d-flex align-items-center">
